@@ -186,11 +186,6 @@ Resume benchmarking vs industry dataset
 PDF export reports
 Team collaboration system
 
-📦 Installation
-git clone https://github.com/your-repo/resumeforge-ai.git
-cd resumeforge-ai
-npm install
-
 run Frontend
 npm run dev
 
