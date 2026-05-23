@@ -7,8 +7,10 @@ import {useEffect, useState} from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Resumind" },
-    { name: "description", content: "Smart feedback for your dream job!" },
+    { title: "ResumeForge AI" },
+    { name: "description",
+      content: "AI-powered ATS resume analysis and optimization platform." 
+    },
   ];
 }
 
@@ -39,16 +41,19 @@ export default function Home() {
     loadResumes()
   }, []);
 
-  return <main className="bg-[url('/images/bg-main.svg')] bg-cover">
+  return <main className="bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 min-h-screen">
     <Navbar />
 
     <section className="main-section">
       <div className="page-heading py-16">
-        <h1>Track Your Applications & Resume Ratings</h1>
+        <h1>ResumeForge AI — ATS Resume Intelligence Platform</h1>
         {!loadingResumes && resumes?.length === 0 ? (
-            <h2>No resumes found. Upload your first resume to get feedback.</h2>
+            <h2>  Upload your resume to receive AI-driven ATS scoring,
+  improvement suggestions, and keyword optimization.
+            </h2>
         ): (
-          <h2>Review your submissions and check AI-powered feedback.</h2>
+          <h2>Monitor resume performance, ATS compatibility,
+  and personalized improvement insights.</h2>
         )}
       </div>
       {loadingResumes && (
@@ -67,8 +72,8 @@ export default function Home() {
 
       {!loadingResumes && resumes?.length === 0 && (
           <div className="flex flex-col items-center justify-center mt-10 gap-4">
-            <Link to="/upload" className="primary-button w-fit text-xl font-semibold">
-              Upload Resume
+            <Link to="/upload" className="w-fit text-xl font-semibold bg-violet-700 hover:bg-violet-900 text-white px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg">
+            Analyze My Resume
             </Link>
           </div>
       )}
