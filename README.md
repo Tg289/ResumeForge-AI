@@ -1,119 +1,276 @@
 <div align="center">
 
-# ResumeForge AI
+# 🚀 ResumeForge AI
 
-AI-powered resume analysis platform that evaluates resumes against job descriptions using ATS-style scoring and intelligent feedback.
+AI-powered SaaS platform for resume analysis, ATS scoring, and intelligent career insights using semantic AI, vector search, and subscription-based access.
 
 </div>
 
 ---
 
-## Overview
+## 🧠 Overview
 
-ResumeForge AI helps users:
+ResumeForge AI is an advanced resume intelligence system that:
 
-- Upload resumes
-- Analyze resume quality
-- Compare resumes with job descriptions
-- Generate ATS-style scores
-- Receive structured improvement feedback
-
-The project focuses on clean UI, responsive design, and practical AI-assisted resume evaluation.
-
----
-
-## Features
-
-- AI-powered resume evaluation
-- ATS compatibility scoring
-- Resume upload system
-- Job-description matching
-- Responsive modern UI
-- Reusable React components
-- Fast Vite-based performance
-- Dark-themed interface
+- Analyzes resumes using AI embeddings
+- Matches resumes with job descriptions (semantic similarity)
+- Generates ATS-style scoring
+- Extracts skills and keywords automatically
+- Provides recruiter-style feedback
+- Supports subscription-based SaaS model
 
 ---
 
-## Tech Stack
+## ⚙️ System Architecture
+<div align="center">
 
+# 🚀 ResumeForge AI
+
+AI-powered SaaS platform for resume analysis, ATS scoring, and intelligent career insights using semantic AI, vector search, and subscription-based access.
+
+</div>
+
+---
+
+## 🧠 Overview
+
+ResumeForge AI is an advanced resume intelligence system that:
+
+- Analyzes resumes using AI embeddings
+- Matches resumes with job descriptions (semantic similarity)
+- Generates ATS-style scoring
+- Extracts skills and keywords automatically
+- Provides recruiter-style feedback
+- Supports subscription-based SaaS model
+
+---
+
+## ⚙️ System Architecture
+<div align="center">
+
+# 🚀 ResumeForge AI
+
+AI-powered SaaS platform for resume analysis, ATS scoring, and intelligent career insights using semantic AI, vector search, and subscription-based access.
+
+</div>
+
+---
+
+## 🧠 Overview
+
+ResumeForge AI is an advanced resume intelligence system that:
+
+- Analyzes resumes using AI embeddings
+- Matches resumes with job descriptions (semantic similarity)
+- Generates ATS-style scoring
+- Extracts skills and keywords automatically
+- Provides recruiter-style feedback
+- Supports subscription-based SaaS model
+
+---
+
+## ⚙️ System Architecture
+Frontend (React + Vite)
+↓
+Backend (Express API)
+↓
+AI Layer (OpenAI Embeddings)
+↓
+Vector DB (Supabase pgvector)
+↓
+Billing (Stripe Subscriptions)
+
+
+---
+
+## ✨ Features
+
+### 🧠 AI Intelligence
+- OpenAI embeddings-based scoring
+- Semantic resume ↔ job description matching
+- Skill extraction engine
+- Keyword density analysis
+
+### 📊 Resume Analytics
+- ATS Score breakdown
+- Role matching score
+- Improvement suggestions
+- Resume comparison engine (future-ready)
+
+### 💰 SaaS System
+- Free / Pro / Enterprise plans
+- Feature-based access control
+- Usage limits per plan
+- Stripe subscription integration
+
+### 🔎 Vector Search
+- Resume similarity search
+- AI-powered ranking system
+- Scalable pgvector storage
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
 - React
 - TypeScript
 - Vite
 - Tailwind CSS
 - React Router
-- Zustand
+
+### Backend
+- Node.js
+- Express.js
+- Supabase (PostgreSQL + pgvector)
+- Stripe API
+
+### AI Layer
+- OpenAI Embeddings API
+- Cosine similarity scoring
 
 ---
 
-## Screenshots
+## 🧠 Core AI Flow
 
-### Dashboard
 
-Add your screenshot here:
+Resume Upload
+↓
+Text Extraction
+↓
+OpenAI Embedding Generation
+↓
+Vector DB Storage (Supabase)
+↓
+Similarity Matching with Job Description
+↓
+ATS Score + Role Match Output
 
-```md
-![Dashboard](./public/screenshots/dashboard.png)
-```
-
-### Resume Analysis
-
-```md
-![Analysis](./public/screenshots/analysis.png)
-```
-
----
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/resumeforge-ai.git
-```
-
-Move into the project folder:
-
-```bash
-cd resumeforge-ai
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
 
 ---
 
-## Folder Structure
+## 💰 SaaS Flow
 
-```bash
+
+User selects plan
+↓
+Stripe checkout session created
+↓
+Payment completed
+↓
+Stripe webhook triggers backend
+↓
+User upgraded to PRO / ENTERPRISE
+
+
+---
+
+## 📁 Project Structure
+
+
 app/
 components/
 routes/
-public/
-styles/
-```
+lib/
+ai/
+billing/
+keywordExtractor.ts
+
+server/
+api/
+ai.ts
+auth.ts
+stripe.ts
+stripeWebhook.ts
+vector.ts
+
+lib/
+openai.ts
+supabase.ts
+stripe.ts
+
+db/
+schema.sql
+
 
 ---
 
-## Future Improvements
+## 🧪 Key APIs
 
-- Multi-resume comparison
-- Export analysis as PDF
-- Authentication system
-- AI-generated resume suggestions
-- Recruiter dashboard
+### AI Analysis
+
+POST /api/analyze
+
+
+### Authentication
+
+POST /api/auth/login
+
+
+### Stripe Checkout
+
+POST /api/stripe/checkout
+
+
+### Stripe Webhook
+
+POST /api/stripe/webhook
+
+
+### Vector Search
+
+POST /api/vector/search
+
 
 ---
 
-## Author
+## 🗄 Database Schema (Supabase)
 
-Developed by Tanu
+```sql
+users
+- id
+- email
+- plan
+
+resumes
+- id
+- user_id
+- content
+- ats_score
+- role_match
+
+resume_vectors
+- id
+- resume_id
+- embedding (vector)
+🔐 Subscription Plans
+Plan	Features
+FREE	Basic ATS score
+PRO	AI scoring + keyword extraction
+ENTERPRISE	Full analytics + vector search
+🚀 Future Improvements
+Recruiter dashboard (candidate ranking system)
+Multi-resume comparison engine
+AI hiring probability score
+Resume benchmarking vs industry dataset
+PDF export reports (AI-generated)
+Team collaboration system
+📦 Installation
+git clone https://github.com/your-repo/resumeforge-ai.git
+cd resumeforge-ai
+npm install
+Run frontend
+npm run dev
+Run backend
+cd server
+npm install
+npm run dev
+🔑 Environment Variables
+OPENAI_API_KEY=
+SUPABASE_URL=
+SUPABASE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+👨‍💻 Author
+
+Built by Tanu

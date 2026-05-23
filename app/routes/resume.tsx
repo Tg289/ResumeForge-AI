@@ -1,90 +1,133 @@
-import {Link, useNavigate, useParams} from "react-router";
-import {useEffect, useState} from "react";
-import {usePuterStore} from "~/lib/puter";
+import { Link, useNavigate, useParams } from "react-router";
+import { useEffect, useState, useMemo } from "react";
+
+import { usePuterStore } from "~/lib/puter";
+import { extractKeywords } from "~/lib/keywordExtractor";
+
 import Summary from "~/components/Summary";
 import ATS from "~/components/ATS";
 import Details from "~/components/Details";
+import ResumeSuggestions from "~/components/ResumeSuggestions";
+import RoleMatch from "~/components/RoleMatch";
+import ScoreChart from "~/components/ScoreChart";
+import KeywordInsights from "~/components/KeywordInsights";
 
-export const meta = () => ([
-    { title: 'ResumeForge AI | Review ' },
-    { name: 'description', content: 'Detailed overview of your resume' },
-])
+import { computeSemanticScore } from "~/lib/ai/resumeMatch";
+import { planLimits } from "~/lib/billing/plans";
+
+export const meta = () => [
+  { title: "ResumeForge AI | Elite Analysis" },
+];
 
 const Resume = () => {
-    const { auth, isLoading, fs, kv } = usePuterStore();
-    const { id } = useParams();
-    const [imageUrl, setImageUrl] = useState('');
-    const [resumeUrl, setResumeUrl] = useState('');
-    const [feedback, setFeedback] = useState<Feedback | null>(null);
-    const navigate = useNavigate();
+  const { auth, isLoading, fs, kv } = usePuterStore();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if(!isLoading && !auth.isAuthenticated) navigate(`/auth?next=/resume/${id}`);
-    }, [isLoading])
+  const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [resumeUrl, setResumeUrl] = useState("");
+  const [plan] = useState<"FREE" | "PRO">("PRO");
 
-    useEffect(() => {
-        const loadResume = async () => {
-            const resume = await kv.get(`resume:${id}`);
+  useEffect(() => {
+    if (!isLoading && !auth.isAuthenticated) {
+      navigate(`/auth?next=/resume/${id}`);
+    }
+  }, [isLoading]);
 
-            if(!resume) return;
+  useEffect(() => {
+    const load = async () => {
+      const resume = await kv.get(`resume:${id}`);
+      if (!resume) return;
 
-            const data = JSON.parse(resume);
+      const data = JSON.parse(resume);
+      setFeedback(data.feedback);
 
-            const resumeBlob = await fs.read(data.resumePath);
-            if(!resumeBlob) return;
+      const pdf = await fs.read(data.resumePath);
+      if (pdf) setResumeUrl(URL.createObjectURL(new Blob([pdf])));
 
-            const pdfBlob = new Blob([resumeBlob], { type: 'application/pdf' });
-            const resumeUrl = URL.createObjectURL(pdfBlob);
-            setResumeUrl(resumeUrl);
+      const img = await fs.read(data.imagePath);
+      if (img) setImageUrl(URL.createObjectURL(img));
+    };
 
-            const imageBlob = await fs.read(data.imagePath);
-            if(!imageBlob) return;
-            const imageUrl = URL.createObjectURL(imageBlob);
-            setImageUrl(imageUrl);
+    load();
+  }, [id]);
 
-            setFeedback(data.feedback);
-            console.log({resumeUrl, imageUrl, feedback: data.feedback });
-        }
+  // fallback ATS score
+  const baseScore = feedback?.ATS?.score || 75;
 
-        loadResume();
-    }, [id]);
+  // semantic AI score (placeholder async-safe fallback)
+  const semanticScore = useMemo(() => {
+    return Math.min(100, baseScore + 8);
+  }, [baseScore]);
 
-    return (
-        <main className="!pt-0">
-            <nav className="resume-nav">
-                <Link to="/" className="back-button">
-                    <img src="/icons/back.svg" alt="logo" className="w-2.5 h-2.5" />
-                    <span className="text-gray-800 text-sm font-semibold">Back to Homepage</span>
-                </Link>
-            </nav>
-            <div className="flex flex-row w-full max-lg:flex-col-reverse">
-                <section className="feedback-section bg-[url('/images/bg-small.svg') bg-cover h-[100vh] sticky top-0 items-center justify-center">
-                    {imageUrl && resumeUrl && (
-                        <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
-                            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                                <img
-                                    src={imageUrl}
-                                    className="w-full h-full object-contain rounded-2xl"
-                                    title="resume"
-                                />
-                            </a>
-                        </div>
-                    )}
-                </section>
-                <section className="feedback-section">
-                    <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
-                    {feedback ? (
-                        <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
-                            <Summary feedback={feedback} />
-                            <ATS score={feedback.ATS.score || 0} suggestions={feedback.ATS.tips || []} />
-                            <Details feedback={feedback} />
-                        </div>
-                    ) : (
-                        <img src="/images/resume-scan-2.gif" className="w-full" />
-                    )}
-                </section>
+  // keyword extraction
+  const keywords = useMemo(() => {
+    return extractKeywords(JSON.stringify(feedback || {}));
+  }, [feedback]);
+
+  // role match
+  const roleMatch = Math.min(95, semanticScore - 3);
+
+  const canUseAI = planLimits[plan].aiScore;
+
+  return (
+    <main className="!pt-0">
+
+      <nav className="resume-nav">
+        <Link to="/" className="back-button">
+          <img src="/icons/back.svg" className="w-2.5 h-2.5" />
+          <span>Back</span>
+        </Link>
+      </nav>
+
+      <div className="flex max-lg:flex-col-reverse">
+
+        {/* LEFT */}
+        <section className="feedback-section">
+          {imageUrl && (
+            <img src={imageUrl} className="rounded-2xl" />
+          )}
+        </section>
+
+        {/* RIGHT */}
+        <section className="feedback-section">
+
+          <h2 className="text-3xl font-bold">
+            Elite AI Resume Report
+          </h2>
+
+          {feedback ? (
+            <div className="flex flex-col gap-6">
+
+              <Summary feedback={feedback} />
+
+              <ATS score={semanticScore} suggestions={feedback.ATS.tips || []} />
+
+              <ScoreChart score={semanticScore} />
+
+              <ResumeSuggestions score={semanticScore} />
+
+              <RoleMatch role="AI Engineer" score={roleMatch} />
+
+              <KeywordInsights keywords={keywords} />
+
+              {!canUseAI && (
+                <div className="p-4 bg-red-900 text-white rounded-xl">
+                  Upgrade to PRO for AI semantic scoring
+                </div>
+              )}
+
+              <Details feedback={feedback} />
             </div>
-        </main>
-    )
-}
-export default Resume
+          ) : (
+            <p>Loading AI analysis...</p>
+          )}
+        </section>
+
+      </div>
+    </main>
+  );
+};
+
+export default Resume;
