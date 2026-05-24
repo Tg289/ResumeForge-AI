@@ -1,205 +1,252 @@
-<div align="center">
-
 # 🚀 ResumeForge AI
 
 AI-powered SaaS platform for resume analysis, ATS scoring, and intelligent career insights using semantic AI, vector search, and subscription-based access.
 
-</div>
-
 ---
 
-## 🧠 Overview
+# 🧠 Overview
 
 ResumeForge AI is an AI-driven resume intelligence system that helps users:
 
-- Analyze resumes using AI embeddings
-- Match resumes with job descriptions (semantic similarity)
-- Generate ATS-style scoring
-- Extract skills and keywords automatically
-- Provide structured improvement feedback
-- Support SaaS-based subscription plans
+* Analyze resumes using AI embeddings
+* Match resumes with job descriptions using semantic similarity
+* Generate ATS-style resume scores
+* Extract skills and keywords automatically
+* Provide structured resume improvement feedback
+* Support SaaS-based subscription plans
 
 ---
 
-## ⚙️ System Architecture
+# ⚙️ System Architecture
 
-rontend (React + Vite)
-↓
+Frontend (React + Vite)
+        ↓
 Backend (Express API)
-↓
+        ↓
 AI Layer (OpenAI Embeddings)
-↓
+        ↓
 Vector DB (Supabase pgvector)
-↓
+        ↓
 Billing (Stripe Subscriptions)
 
 ---
-## ✨ Features
 
-### 🧠 AI Intelligence
-- OpenAI embedding-based scoring
-- Semantic resume ↔ job description matching
-- Skill extraction engine
-- Keyword density analysis
+# ✨ Features
 
-### 📊 Resume Analytics
-- ATS Score breakdown
-- Role matching score
-- Improvement suggestions
-- Resume comparison (future-ready)
+## 🧠 AI Intelligence
 
-### 💰 SaaS System
-- Free / Pro / Enterprise plans
-- Feature-based access control
-- Usage limits per plan
-- Stripe subscription integration
-
-### 🔎 Vector Search
-- Resume similarity search
-- AI-powered ranking system
-- Scalable pgvector storage
+* OpenAI embedding-based scoring
+* Semantic Resume ↔ Job Description matching
+* Skill extraction engine
+* Keyword density analysis
 
 ---
 
-## 🛠 Tech Stack
+## 📊 Resume Analytics
 
-### Frontend
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-
-### Backend
-- Node.js
-- Express.js
-- Supabase (PostgreSQL + pgvector)
-- Stripe API
-
-### AI Layer
-- OpenAI Embeddings API
-- Cosine similarity scoring
+* ATS score breakdown
+* Role matching score
+* Resume improvement suggestions
+* Future-ready comparison engine support
 
 ---
 
-## 🧠 Core AI Flow
+## 💰 SaaS System
+
+* Free / Pro / Enterprise plans
+* Feature-based access control
+* Usage limits per subscription plan
+* Stripe subscription integration
+
+---
+
+## 🔎 Vector Search
+
+* Resume similarity search
+* AI-powered ranking system
+* Scalable pgvector storage
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* React Router
+
+## Backend
+
+* Node.js
+* Express.js
+* Supabase (PostgreSQL + pgvector)
+* Stripe API
+
+## AI Layer
+
+* OpenAI Embeddings API
+* Cosine similarity scoring
+
+---
+
+# 🧠 Core AI Flow
+
 Resume Upload
-↓
+      ↓
 Text Extraction
-↓
+      ↓
 Embedding Generation (OpenAI)
-↓
+      ↓
 Vector DB Storage (Supabase)
-↓
+      ↓
 Semantic Matching with Job Description
-↓
+      ↓
 ATS Score + Role Match Output
-
-
 ---
 
-## 💰 SaaS Flow
+# 💰 SaaS Flow
+
 User selects plan
-↓
+      ↓
 Stripe checkout session
-↓
+      ↓
 Payment successful
-↓
+      ↓
 Stripe webhook triggers backend
-↓
-User plan upgraded (FREE → PRO / ENTERPRISE)
-
+      ↓
+User plan upgraded
+(FREE → PRO / ENTERPRISE)
 
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
+
 app/
-components/
-routes/
-lib/
-ai/
-billing/
-keywordExtractor.ts
+ ├── components/
+ ├── routes/
+ ├── lib/
+ ├── ai/
+ ├── billing/
+ └── keywordExtractor.ts
 
 server/
-api/
-ai.ts
-auth.ts
-stripe.ts
-stripeWebhook.ts
-vector.ts
+ ├── api/
+ │    ├── ai.ts
+ │    ├── auth.ts
+ │    ├── stripe.ts
+ │    ├── stripeWebhook.ts
+ │    └── vector.ts
 
 lib/
-openai.ts
-supabase.ts
-stripe.ts
+ ├── openai.ts
+ ├── supabase.ts
+ └── stripe.ts
 
 db/
-schema.sql
+ └── schema.sql
+---
 
+# 🧪 Key APIs
+
+| Endpoint                    | Description            |
+| --------------------------- | ---------------------- |
+| POST /api/analyze         | AI resume scoring      |
+| POST /api/auth/login     | Authentication         |
+| POST /api/stripe/checkout | Subscription payment   |
+| POST /api/stripe/webhook | Payment confirmation   |
+| POST /api/vector/search | Semantic vector search |
 
 ---
 
-## 🧪 Key APIs
+# 🗄 Database Schema (Supabase)
 
-- POST /api/analyze → AI resume scoring
-- POST /api/auth/login → authentication
-- POST /api/stripe/checkout → subscription payment
-- POST /api/stripe/webhook → payment confirmation
-- POST /api/vector/search → semantic search
+## users
 
----
+id
+email
+plan
 
-## 🗄 Database Schema (Supabase)
+
+## resumes
+id
+user_id
+content
+ats_score
+role_match
+
+
+## resume_vectors
 
 sql
-users
-- id
-- email
-- plan
+id
+resume_id
+embedding (vector)
+---
 
-resumes
-- id
-- user_id
-- content
-- ats_score
-- role_match
+# 🔐 Subscription Plans
 
-resume_vectors
-- id
-- resume_id
-- embedding (vector)
-
-
-🔐 Subscription Plans
 | Plan       | Features                        |
 | ---------- | ------------------------------- |
 | FREE       | Basic ATS scoring               |
 | PRO        | AI scoring + keyword extraction |
 | ENTERPRISE | Full analytics + vector search  |
 
-🚀 Future Improvements
-Recruiter dashboard (candidate ranking system)
-Multi-resume comparison engine
-AI hiring probability score
-Resume benchmarking vs industry dataset
-PDF export reports
-Team collaboration system
+---
 
-run Frontend
+# 📸 Screenshots
+
+## Dashboard
+
+<img width="100%" alt="Dashboard" src="./screenshots/dashboard.png" />
+
+## Resume Analysis
+
+<img width="100%" alt="Resume Analysis" src="./screenshots/analysis.png" />
+
+## ATS Score System
+
+<img width="100%" alt="ATS Score" src="./screenshots/ats-score.png" />
+
+---
+
+# 🚀 Future Improvements
+
+* Recruiter dashboard
+* Candidate ranking system
+* Multi-resume comparison engine
+* AI hiring probability score
+* Resume benchmarking vs industry datasets
+* PDF export reports
+* Team collaboration system
+
+---
+
+# ▶️ Run Frontend
+
 npm run dev
 
-run Backend
+# ▶️ Run Backend
+
 cd server
 npm install
 npm run dev
 
-🔑 Environment Variables
+
+# 🔑 Environment Variables
+
+env
 OPENAI_API_KEY=
 SUPABASE_URL=
 SUPABASE_KEY=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
+---
 
-👨‍💻 Author
-Built by Tanu
+# 👨‍💻 Author
+Built by Tanishka
+
+
+After this, your repo will stop looking like a copied tutorial and start looking like an actual product build.
