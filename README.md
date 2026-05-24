@@ -1,4 +1,4 @@
-# 🚀 ResumeForge AI
+ # 🚀 ResumeForge AI
 
 AI-powered SaaS platform for resume analysis, ATS scoring, and intelligent career insights using semantic AI, vector search, and subscription-based access.
 
@@ -248,5 +248,3 @@ STRIPE_WEBHOOK_SECRET=
 # 👨‍💻 Author
 Built by Tanishka
 
-
-After this, your repo will stop looking like a copied tutorial and start looking like an actual product build.
